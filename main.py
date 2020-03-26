@@ -14,12 +14,25 @@ def main():
     # event binging
     def on_key(e): 
         am.process_char(e.char)
-        print(am.get_number_str())
         gui.update(am)
 
     window.bind("<Key>", on_key)
 
+    def on_backspace(e):
+        am.process_backspace()
+        gui.update(am)
+
+    window.bind("<BackSpace>", on_backspace)
+    window.bind("<Right>", on_backspace)
+
+    def on_return(e):
+        am.process_char("=")
+        gui.update(am)
+
+    window.bind("<Return>", on_return)
+
     # go
+    window.title("Adding Machine")
     window.mainloop()
 
 
