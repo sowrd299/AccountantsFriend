@@ -36,6 +36,6 @@ class GUI(tkinter.Frame):
         return str(am.get_number())
 
     def update(self, am):
-        self.subtotals_v.set("Subtotals: " + " ".join(map(lambda x : str(x) + " +", am.get_subtotals())))
+        self.subtotals_v.set("Subtotals: " + ", ".join(map(lambda x : str(x) , am.get_subtotals())))
         self.number_v.set(self.get_number_disp(am))
 

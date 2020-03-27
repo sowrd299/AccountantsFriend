@@ -1,19 +1,27 @@
 import tkinter
 
-from adding_maching import AddingMachine
+from adding_machine import AddingMachine
 from gui import GUI
 
 def main():
     
-    # create the main objects
+    # CREATE THE MAIN OBJECTS
     am = AddingMachine()
     window = tkinter.Tk()
     gui = GUI(window)
     gui.update(am)
 
-    # event binging
+    # EVENT BINDINGS
     def on_key(e): 
         am.process_char(e.char)
+
+        # UI and I/O command keys
+        if e.char in 'xc':
+            window.clipboard_clear()
+            window.clipboard_append(str(am.get_number()))
+        elif e.char in 'v':
+            am.process_char(window.clipboard_get())
+
         gui.update(am)
 
     window.bind("<Key>", on_key)
@@ -31,7 +39,7 @@ def main():
 
     window.bind("<Return>", on_return)
 
-    # go
+    # GO
     window.title("Adding Machine")
     window.mainloop()
 
