@@ -12,17 +12,15 @@ class AddingMachine():
 
     # GETTERS AND SETTERS
 
+    def get_subtotals(self):
+        return self.totals[:-1]
+
     def get_total(self):
         return self.totals[-2 if entering_number else -1]
-
-    def get_total_str(self):
         return str(self.get_total())
 
     def get_number(self):
-        return str(self.totals[-1])
-
-    def get_number_str(self):
-        return str(self.get_number())
+        return self.totals[-1]
 
     def clear_number(self):
         self.entering_number = False
@@ -67,13 +65,17 @@ class AddingMachine():
         # "cashed" operations
         elif len(char) == 1 and char in "/*":
             self.cache_op(lambda b : eval("{0}{1}{2}".format(self.totals.pop(-1),char,b)))
+            self.totals.append(0.0) # starts a "new" stack layer for the new number
 
         elif char == "=":
+            if self.entering_number:
+                self.process_char("+") # assume preceding number was positive
+
             self.do_cached_op()
 
         # control operations
-
-        elif char == "C": # all clear
+        #   all clear
+        elif char == "C":
             self.__init__()
 
         # clearnup
@@ -82,5 +84,5 @@ class AddingMachine():
 
     def process_backspace(self):
 
-        if self.entering_number:
-            self.totals[-1] //= self.base
+        self.totals[-1] //= self.base
+        self.entering_number = True
