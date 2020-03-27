@@ -1,3 +1,10 @@
+def isfloat(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
+
 '''
 A class to manage and represent the opperations of an adding machine
 '''
@@ -7,7 +14,7 @@ class AddingMachine():
 
     def __init__(self):
         self.totals = [0.0]
-        self.cached_ops = None
+        self.cached_op = lambda x : x
         self.entering_number = False # stores if we are currently midway through entering a number
 
     # GETTERS AND SETTERS
@@ -54,7 +61,7 @@ class AddingMachine():
         entered_number = False # tracks if we are in the middle of entering a number
 
         # typing a digit
-        if char.isdigit():
+        if isfloat(char):
             self.add_digit(float(char))
             entered_number = True
 

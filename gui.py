@@ -48,6 +48,9 @@ class GUI(tkinter.Frame):
         help_gui = HelpGUI(window)
 
 
+'''
+A GUI for displaying the command available
+'''
 class HelpGUI(GUI):
 
     help_text = "\n".join([
@@ -64,7 +67,7 @@ class HelpGUI(GUI):
 
     def create_widgets(self):
 
-        self.help_label = tkinter.Label(self, text=self.help_text, bg=self.bg, fg=self.fg, font=(self.font, 14), justify=tkinter.LEFT)
+        self.help_label = tkinter.Label(self, text=self.help_text, bg=self.bg, fg=self.fg, font=(self.font, 12), justify=tkinter.LEFT)
         self.help_label.pack()
 
     def update(self):
