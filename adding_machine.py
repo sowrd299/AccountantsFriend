@@ -108,11 +108,6 @@ class AddingMachine():
 
             self.do_cached_op()
 
-        # control operations
-        #   all clear
-        elif char == "C":
-            self.__init__()
-
         # clearnup
         self.entering_number = entered_number
 
