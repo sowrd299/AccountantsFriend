@@ -6,6 +6,34 @@ def isfloat(value):
         return False
 
 '''
+A class that represents a operation represented by a string
+    e.g., and math operator with an assigned character
+'''
+class CharOp():
+
+    def __init__(self, char):
+        self.char = char
+
+    def __str__(self):
+        return self.char
+
+    def __call__(self, a, b):
+        return eval( "{0}{1}{2}".format(a, self.char, b) )
+
+'''
+A subclass that stores the left operand
+'''
+class PartialCompleteCharOp(CharOp):
+
+    def __init__(self, a, char):
+        super().__init__(char)
+        self.a = a
+
+    def __call__(self, b):
+        return super().__call__(self.a, b)
+
+
+'''
 A class to manage and represent the opperations of an adding machine
 '''
 class AddingMachine():
@@ -67,12 +95,12 @@ class AddingMachine():
 
         # basic operations 
         elif len(char) == 1 and char in "+-":
-            self.do_op(lambda a,b : eval("{0}{1}{2}".format(a,char,b)))
+            self.do_op(CharOp(char))
 
         # "cashed" operations
         elif len(char) == 1 and char in "/*":
-            self.cache_op(lambda b : eval("{0}{1}{2}".format(self.totals.pop(-1),char,b)))
-            self.totals.append(0.0) # starts a "new" stack layer for the new number
+            self.cache_op(PartialCompleteCharOp(self.totals.pop(-1), char))
+            self.totals.append(0.0) # starts a new stack "layer" for the new number
 
         elif char == "=":
             if self.entering_number:
