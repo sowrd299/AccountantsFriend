@@ -50,6 +50,8 @@ class GUI(tkinter.Frame):
 
     bg2 = "#050505"
 
+    fg3 = "#5090c0"
+
     light_bg = "#b0c0d0"
     light_fg = bg2
 
@@ -71,10 +73,6 @@ class GUI(tkinter.Frame):
         self.top_frame = tkinter.Frame(self, bg=self.bg2)
         self.top_frame.pack(fill = tkinter.X)
 
-        # OPEN HELP MENU
-        self.help_button = tkinter.Button(self.top_frame, text="Help", command = self.open_help, bg=self.bg2, fg=self.fg, font=(self.font, 8), relief=tkinter.FLAT)
-        self.help_button.pack(side = tkinter.LEFT)
-
         # DISPLAY CURRENT SUBTOTALS
         self.subtotals_v = tkinter.StringVar()
         self.subtotals = tkinter.Label(self.top_frame, textvariable=self.subtotals_v, bg=self.bg2, fg=self.fg, font=(self.font, 12), anchor=tkinter.W)
@@ -85,8 +83,25 @@ class GUI(tkinter.Frame):
         self.number = tkinter.Label(self, textvariable=self.number_v, width=18, bg=self.bg, fg=self.fg, font=(self.font, 24), anchor=tkinter.E)
         self.number.pack()
 
+        # THE BAR OF OPTIONS
+        self.bottom_frame = tkinter.Frame(self, bg=self.bg2)
+        self.bottom_frame.pack(fill = tkinter.X, side=tkinter.BOTTOM)
+
+        # OPEN HELP MENU
+        self.help_button = tkinter.Button(self.bottom_frame, text="Help", command = self.open_help, bg=self.bg2, fg=self.fg, font=(self.font, 8), relief=tkinter.FLAT)
+        self.help_button.pack(side = tkinter.LEFT)
+
+        # THE DECIMAL SETTING
+        self.decimal_label = tkinter.Label(self.bottom_frame, text=" Decimals:", bg=self.bg2, fg=self.fg, font=(self.font, 10), anchor=tkinter.W)
+        self.decimal_label.pack(side = tkinter.LEFT)
+
+        self.decimal_v = tkinter.IntVar()
+        self.decimal_buttons = [ tkinter.Radiobutton(self.bottom_frame, text=str(i), variable=self.decimal_v, value=i, bg=self.bg2, fg=self.fg3, bd=0, highlightthickness=0, font=(self.font, 10)) for i in range(4) ]
+        for button in self.decimal_buttons:
+            button.pack(side=tkinter.LEFT)
+
     def get_number_disp(self, am):
-        return "{0:.{1}f}".format(am.get_number(), am.decimals)
+        return "{0:.{1}f}".format(am.get_number(), am.get_decimals())
 
     def update(self, am):
         self.tape.update(am.get_tape())

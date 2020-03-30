@@ -1,3 +1,5 @@
+from tkinter import IntVar
+
 def isfloat(value):
     try:
         float(value)
@@ -64,11 +66,21 @@ class AddingMachine():
     def clear_number(self):
         self.entering_number = False
 
+    def get_decimals(self):
+        if isinstance(self.decimals, IntVar):
+            return self.decimals.get()
+        else:
+            return self.decimals
+
     def set_decimals(self, val):
-        self.decimals = val
+        if isinstance(self.decimals, IntVar) and isinstance(val, int):
+            self.decimals.set(val)
+        else:
+            self.decimals = val
 
     def round_number(self):
-        self.totals[-1] = round(self.totals[-1], self.decimals)
+        self.totals[-1] = round(self.totals[-1], self.get_decimals())
+
 
     # ACTUAL OPPERATIONS
 
@@ -88,7 +100,7 @@ class AddingMachine():
 
     def add_digit(self, val):
 
-        val /= (self.base ** self.decimals) # apply the apropriate number of decimals
+        val /= (self.base ** self.get_decimals()) # apply the apropriate number of decimals
 
         if self.entering_number:
             self.totals[-1] *= self.base

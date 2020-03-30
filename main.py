@@ -47,7 +47,8 @@ def main():
 
     window.bind("<Return>", on_return)
 
-    am.set_decimals(2) # TESTING
+    am.set_decimals(gui.decimal_v)
+    am.set_decimals(2) # default number of decimals
 
     # GO
     gui.update(am)
