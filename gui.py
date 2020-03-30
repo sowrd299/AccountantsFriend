@@ -50,7 +50,7 @@ class GUI(tkinter.Frame):
 
     bg2 = "#050505"
 
-    light_bg = "#c0c0d0"
+    light_bg = "#b0c0d0"
     light_fg = bg2
 
     font = "Helvetica"
@@ -86,7 +86,7 @@ class GUI(tkinter.Frame):
         self.number.pack()
 
     def get_number_disp(self, am):
-        return str(am.get_number())
+        return "{0:.{1}f}".format(am.get_number(), am.decimals)
 
     def update(self, am):
         self.tape.update(am.get_tape())

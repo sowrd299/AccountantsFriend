@@ -47,6 +47,8 @@ def main():
 
     window.bind("<Return>", on_return)
 
+    am.set_decimals(2) # TESTING
+
     # GO
     gui.update(am)
     window.title("Adding Machine")
