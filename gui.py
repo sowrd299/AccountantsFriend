@@ -105,12 +105,14 @@ class HelpGUI(GUI):
 
     help_text = [
         'KEYBOARD COMMANDS:',
-        '"x"/"c": Copy number to clipboard',
-        '"v": Paste number from clipboard',
-        '"C": Clear All/Complete reset',
-        'Backspace/Right Arrow:\n\tDelete least significant digit',
-        '"+", "-", "*", "/", "=", and number keys:\n\tWork like an adding machine',
-        'Enter: Same as "="; numpad enter may not work'
+        'x/c: Copy number to clipboard.',
+        't: Copy the tape to clipboard.',
+        'v: Paste number from clipboard.',
+        'C: Clear All/Complete reset.',
+        'Backspace/Right Arrow:\n\tDelete least significant digit.',
+        '+, -, *, /, =, and number keys:\n\tWork like an adding machine.',
+        'Enter: Same as "="; numpad enter may not work.',
+        '\n©2020 Ryan N. Ward' 
     ]
     
 
@@ -120,7 +122,7 @@ class HelpGUI(GUI):
         for i,line in enumerate(self.help_text):
 
             bg = self.bg if i % 2 else self.bg2
-            formated_line = "{0}:\t{1}".format(*line.split(":"))
+            formated_line = "{0}:\t{1}".format(*line.split(":")) if ":" in line else line
             font = (self.font, 12) + (("bold",) if i == 0 else tuple())
 
             label = tkinter.Label(self, text=formated_line, bg=bg, fg=self.fg, font=font, anchor=tkinter.W, justify=tkinter.LEFT)

@@ -19,6 +19,10 @@ def main():
         if e.char in 'xc':
             window.clipboard_clear()
             window.clipboard_append(str(am.get_number()))
+        # Copy tape
+        elif e.char in 't':
+            window.clipboard_clear()
+            window.clipboard_append(str(am.get_tape()))
         # Paste
         elif e.char in 'v':
             am.process_char(window.clipboard_get())
