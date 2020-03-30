@@ -9,7 +9,6 @@ def main():
     am = TapedAddingMachine()
     window = tkinter.Tk()
     gui = GUI(window)
-    gui.update(am)
 
     # EVENT BINDINGS
     def on_key(e): 
@@ -45,6 +44,7 @@ def main():
     window.bind("<Return>", on_return)
 
     # GO
+    gui.update(am)
     window.title("Adding Machine")
     window.mainloop()
 

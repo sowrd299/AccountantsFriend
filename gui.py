@@ -6,14 +6,38 @@ class TapeTextArea(tkinter.Frame):
         super().__init__(parent)
         self.kwargs = kwargs
         self.create_widgets()
+        self.rows = kwargs["height"]
 
     def create_widgets(self):
-        self.text_v = tkinter.StringVar()
-        self.label = tkinter.Label(self, textvariable = self.text_v, **self.kwargs, anchor = tkinter.SE, justify=tkinter.RIGHT)
-        self.label.pack(fill = tkinter.BOTH)
+
+        # GRID
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
+        # TEXT AREA
+        self.text = tkinter.Text(self, **self.kwargs, width=-1, relief = tkinter.FLAT)
+        self.text.grid(row = 0, column = 0, sticky="nsew")
+        self.create_text_format()
+
+        # SCROLL
+        self.scroll_area = self.text # pseudonim for whatever widget will be scrolled through
+        self.scrollbar = tkinter.Scrollbar(self, command=self.scroll_area.yview)
+        self.scrollbar.grid(row=0, column=1, sticky='nsew')
+        self.scroll_area.config(yscrollcommand =  self.scrollbar.set)
+
+    def create_text_format(self):
+        self.text.tag_configure("body", justify="right")
+
+    def format_text(self):
+        self.text.tag_add("body", "1.0", tkinter.END)
 
     def update(self, tape):
-        self.text_v.set(str(tape))
+        # set the text
+        self.text.delete("1.0", tkinter.END)
+        self.text.insert(tkinter.END, ("\n" * (self.rows-1)) + str(tape))
+        # display it correctly
+        self.format_text()
+        self.text.see(tkinter.END)
 
 
 '''
@@ -33,13 +57,14 @@ class GUI(tkinter.Frame):
 
     def __init__(self, parent):
         super().__init__(parent)
+        parent.resizable(False, False)
         self.pack()
         self.create_widgets()
 
     def create_widgets(self):
 
         # THE TAPE
-        self.tape = TapeTextArea(self, bg = self.light_bg, fg = self.light_fg, font=(self.font, 13), height=8)
+        self.tape = TapeTextArea(self, bg = self.light_bg, fg = self.light_fg, font=(self.font, 14), height=8)
         self.tape.pack(fill = tkinter.BOTH)
 
         # THE BAR OF OPTIONS
@@ -47,7 +72,7 @@ class GUI(tkinter.Frame):
         self.top_frame.pack(fill = tkinter.X)
 
         # OPEN HELP MENU
-        self.help_button = tkinter.Button(self.top_frame, text="Help", command = self.open_help, bg=self.bg2, fg=self.fg, font=(self.font, 8))
+        self.help_button = tkinter.Button(self.top_frame, text="Help", command = self.open_help, bg=self.bg2, fg=self.fg, font=(self.font, 8), relief=tkinter.FLAT)
         self.help_button.pack(side = tkinter.LEFT)
 
         # DISPLAY CURRENT SUBTOTALS
@@ -98,7 +123,7 @@ class HelpGUI(GUI):
             formated_line = "{0}:\t{1}".format(*line.split(":"))
             font = (self.font, 12) + (("bold",) if i == 0 else tuple())
 
-            label = tkinter.Label(self, text=formated_line, bg=bg, fg=self.fg, font=font, anchor=tkinter.W, justify=tkinter.RIGHT)
+            label = tkinter.Label(self, text=formated_line, bg=bg, fg=self.fg, font=font, anchor=tkinter.W, justify=tkinter.LEFT)
             label.pack(fill = tkinter.X)
             self.labels.append(label)
 
